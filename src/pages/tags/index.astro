@@ -1,11 +1,9 @@
 ---
+import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import type { Post } from '../../@types/post.ts'
 
-const allPosts: Post[] = await Astro.glob('../posts/*.md')
-const tags = [
-  ...new Set(allPosts.flatMap((post) => post.frontmatter.tags)),
-] as const
+const allPosts = await getCollection('posts')
+const tags = [...new Set(allPosts.flatMap((post) => post.data.tags))] as const
 const pageTitle = 'Tag Index'
 ---
 
